@@ -1,0 +1,27 @@
+from dash import Dash, dcc, html
+import plotly.express as px
+
+# Inicializar a aplicação Dash
+app = Dash(__name__)
+
+# Criar gráficos baseados nos dados
+fig_notas = px.histogram(df, x="Nota", nbins=10, title="Distribuição de Notas")
+fig_avaliacoes_desconto = px.scatter(
+    df,
+    x="N_Avaliações",
+    y="Desconto",
+    size="N_Avaliações",
+    color="Nota",
+    title="Avaliações vs Desconto",
+    labels={"N_Avaliações": "Número de Avaliações", "Desconto": "Desconto (%)"}
+)
+
+# Layout da aplicação
+app.layout = html.Div([
+    html.H1("Visualização de Dados do E-commerce", style={"textAlign": "center"}),
+    dcc.Graph(id="grafico-notas", figure=fig_notas),
+    dcc.Graph(id="grafico-avaliacoes-desconto", figure=fig_avaliacoes_desconto)
+])
+
+# Executar o servidor (desativado no notebook para evitar conflitos)
+# app.run_server(debug=True)
